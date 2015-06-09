@@ -1,5 +1,6 @@
 require 'active_support/all'
 require 'money'
+require 'optional'
 
 require 'structural/version'
 require 'structural/missing_attribute_error'

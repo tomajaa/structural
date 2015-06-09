@@ -18,7 +18,7 @@ module Structural
 
       def value_of(data)
         value = data.fetch(key, &default_value)
-        cast(value)
+        optional ? Option[value].map{ |d| cast d } : cast(value)
       end
 
       def presence_of(data)
@@ -37,7 +37,7 @@ module Structural
         proc do
           if default?
             default
-          else 
+          elsif !optional?
             raise MissingAttributeError, key
           end
         end
@@ -50,6 +50,11 @@ module Structural
       def default
         options.fetch(:default)
       end
+
+      def optional?
+        options.fetch(:optional, false)
+      end
+      alias_method :optional, :optional?
 
       attr_reader :model, :name, :options
     end
